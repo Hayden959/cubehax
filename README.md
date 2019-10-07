@@ -1,5 +1,5 @@
 # cubehax
-CubeWorld Hack to change weapon in first slot
+CubeWorld Hack to change weapon in first slot, it’s rarity, and your coins.
 
 CubeHax is a port of my assaultcube cheat for CubeWorld
 
