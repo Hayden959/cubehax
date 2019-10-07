@@ -109,16 +109,40 @@ int main()
 		ReadProcessMemory(achandle, (PVOID)(WeapStats + 0x14), &Rarity, sizeof(Rarity), 0);
 		printf("[+] WeaponStats Rarity: %i\n", Rarity);
 
+		DWORD_PTR Coins1;
+		ReadProcessMemory(achandle, (PVOID)(Base + 0x551E80), &Coins1, sizeof(Coins1), 0);
+		DWORD_PTR Coins2;
+		ReadProcessMemory(achandle, (PVOID)(Coins1 + 0x2E0), &Coins2, sizeof(Coins2), 0);
+		DWORD_PTR CoinsBase;
+		ReadProcessMemory(achandle, (PVOID)(Coins2 + 0x1E8), &CoinsBase, sizeof(CoinsBase), 0);
+
+		int32_t Coins;
+		ReadProcessMemory(achandle, (PVOID)(CoinsBase + 0xBC), &Coins, sizeof(Coins), 0);
+		printf("[+] Coins: %i\n", Coins);
+
+		MessageBox(0, "Weapon IDs go from 1-24. View them on my github page: https://github.com/Hayden959/cubehax", "Weapon IDs", MB_OK);
+
+		static bool once = true;
+
 		while (true) {
-			// get user input
-      // parse input to int32
 			int32_t weapinput;
+			int32_t rareinput;
+			int32_t coinsinput;
 			cout << "Type weapon ID >> ";
 			cin >> weapinput;
 			WriteProcessMemory(achandle, (LPVOID*)(WeapStats + 0x4), &weapinput, sizeof(weapinput), 0);
-			// write input to game
+			cout << "Type weapon Rarity >> ";
+			cin >> rareinput;
+			WriteProcessMemory(achandle, (LPVOID*)(WeapStats + 0x14), &rareinput, sizeof(rareinput), 0);
+			if (once) {
+				cout << "Type Coins >> ";
+				cin >> coinsinput;
+				WriteProcessMemory(achandle, (LPVOID*)(CoinsBase + 0xBC), &coinsinput, sizeof(coinsinput), 0);
+				once = false;
+			}
 		}
-		Sleep(1);	
+		Sleep(1);
 	}
+
 	return 0;
 }
